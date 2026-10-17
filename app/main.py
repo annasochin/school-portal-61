@@ -2,6 +2,7 @@
 import calendar as pycal
 import os
 import re
+import secrets
 import sqlite3
 import uuid
 from datetime import date, timedelta
@@ -16,7 +17,30 @@ from starlette.middleware.sessions import SessionMiddleware
 from . import db, mailer, security
 
 SCHOOL_NAME = "МБОУ СОШ № 61 им. П. Е. Ладана"
-SECRET_KEY = os.environ.get("SECRET_KEY", "change-me-to-a-long-random-string")
+
+
+def load_secret_key() -> str:
+    """Ключ подписи сессий: из переменной окружения либо генерируется один раз
+    и хранится в файле данных (не попадает в публичный репозиторий)."""
+    env = os.environ.get("SECRET_KEY")
+    if env:
+        return env
+    path = db.DATA_DIR / ".secret_key"
+    try:
+        if path.exists():
+            saved = path.read_text().strip()
+            if saved:
+                return saved
+        key = secrets.token_hex(32)
+        db.DATA_DIR.mkdir(parents=True, exist_ok=True)
+        path.write_text(key)
+        return key
+    except OSError:
+        # нет прав на запись — используем ключ на время работы процесса
+        return secrets.token_hex(32)
+
+
+SECRET_KEY = load_secret_key()
 
 app = FastAPI(title=f"Портал олимпиад и конкурсов — {SCHOOL_NAME}")
 app.add_middleware(
