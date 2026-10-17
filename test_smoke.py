@@ -96,6 +96,19 @@ check("Предупреждение о письмах при одобрении"
 r = a.get("/admin/subscribers")
 check("Подписчик в админке", "uchenik@mail.ru" in r.text)
 
+# 11. Смена пароля
+r = a.post("/password", data={"current": "admin123", "new": "NovyjParol1",
+                              "new2": "NovyjParol1"})
+check("Смена пароля", r.status_code == 303, str(r.status_code))
+b = httpx.Client(base_url=BASE, follow_redirects=False, timeout=15)
+r = b.post("/login", data={"login_name": "admin", "password": "admin123"})
+check("Старый пароль отклонён", r.status_code == 200)
+r = b.post("/login", data={"login_name": "admin", "password": "NovyjParol1"})
+check("Новый пароль работает", r.status_code == 303)
+r = b.post("/password", data={"current": "never", "new": "abcdef",
+                              "new2": "abcdef"})
+check("Неверный текущий пароль отклонён", "указан неверно" in r.text)
+
 for status, name, extra in results:
     print(f"{status} {name} {extra}")
 print(f"\nИтого: {sum(1 for s, *_ in results if s == 'OK ')} OK, "

@@ -467,6 +467,32 @@ def cabinet(request: Request, user=Depends(require_teacher)):
     return render(request, "cabinet.html", items=items)
 
 
+@app.get("/password")
+def change_password_page(request: Request, user=Depends(require_user)):
+    return render(request, "password.html", error=None)
+
+
+@app.post("/password")
+def change_password(request: Request, current: str = Form(...),
+                    new: str = Form(...), new2: str = Form(...),
+                    user=Depends(require_user)):
+    if not security.verify_password(current, user["password_hash"]):
+        return render(request, "password.html", error="Текущий пароль указан неверно")
+    if len(new) < 6:
+        return render(request, "password.html", error="Новый пароль — минимум 6 символов")
+    if new != new2:
+        return render(request, "password.html", error="Новые пароли не совпадают")
+    conn = get_conn()
+    try:
+        conn.execute("UPDATE users SET password_hash = ? WHERE id = ?",
+                     (security.hash_password(new), user["id"]))
+        conn.commit()
+    finally:
+        conn.close()
+    set_flash(request, "Пароль успешно изменён.")
+    return RedirectResponse("/cabinet", status_code=303)
+
+
 @app.get("/announcement/new")
 def new_announcement(request: Request, user=Depends(require_teacher)):
     return render(request, "form.html", item=None, editing_files=[], error=None)

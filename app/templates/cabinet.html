@@ -3,7 +3,10 @@
 {% block content %}
 <div class="cabinet-head">
   <h1>Мой кабинет</h1>
-  <a class="btn btn-primary" href="/announcement/new">+ Разместить анонс</a>
+  <div class="actions">
+    <a class="btn btn-ghost" href="/password">Сменить пароль</a>
+    <a class="btn btn-primary" href="/announcement/new">+ Разместить анонс</a>
+  </div>
 </div>
 
 <p class="hint">Ваш предмет: <b>{{ user['subject'] }}</b>. Объявления появятся на сайте после проверки администратором.</p>
