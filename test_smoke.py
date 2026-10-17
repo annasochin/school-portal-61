@@ -109,6 +109,28 @@ r = b.post("/password", data={"current": "never", "new": "abcdef",
                               "new2": "abcdef"})
 check("Неверный текущий пароль отклонён", "указан неверно" in r.text)
 
+# 12. О школе, RSS, печатная карточка
+main_html = c.get("/").text
+r = c.get("/about")
+check("Страница «О школе»", r.status_code == 200 and "Персиановский" in r.text)
+check("Пункт «О школе» в меню", 'href="/about"' in main_html)
+check("RSS объявлен в шапке", 'type="application/rss+xml"' in main_html)
+r = c.get("/rss.xml")
+check("RSS: тип и формат",
+      r.status_code == 200
+      and "rss" in r.headers.get("content-type", "")
+      and '<rss version="2.0">' in r.text)
+check("RSS: анонс попал в ленту", "Кенгуру" in r.text)
+check("RSS: описание с датами", "Дата мероприятия" in r.text)
+r = c.get(f"/announcement/{ann_id}/print")
+check("Печатная карточка открывается",
+      r.status_code == 200 and "Кенгуру" in r.text and "window.print()" in r.text)
+r = c.get(f"/announcement/{ann_id}")
+check("Кнопка печати в объявлении",
+      f'/announcement/{ann_id}/print' in r.text)
+r = c.get("/calendar?month=2027-03")
+check("Кнопка печати в календаре", "/print" in r.text)
+
 for status, name, extra in results:
     print(f"{status} {name} {extra}")
 print(f"\nИтого: {sum(1 for s, *_ in results if s == 'OK ')} OK, "

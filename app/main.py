@@ -5,11 +5,13 @@ import re
 import secrets
 import sqlite3
 import uuid
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
+from email.utils import format_datetime
+from html import escape as xml_escape
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, Request, UploadFile
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
@@ -204,6 +206,11 @@ def index(request: Request, q: str = "", subject: str = "", kind: str = "",
                   kind=kind, active=active)
 
 
+@app.get("/about")
+def about(request: Request):
+    return render(request, "about.html")
+
+
 @app.get("/calendar")
 def calendar_page(request: Request, month: str = ""):
     today = date.today()
@@ -260,8 +267,8 @@ def calendar_page(request: Request, month: str = ""):
                   month_names=pycal.month_name, KINDS=KINDS)
 
 
-@app.get("/announcement/{ann_id}")
-def announcement_detail(request: Request, ann_id: int):
+def load_announcement(ann_id: int, request: Request):
+    """Объявление + его файлы; 404, если нет или нет доступа."""
     conn = get_conn()
     try:
         item = conn.execute(
@@ -281,7 +288,83 @@ def announcement_detail(request: Request, ann_id: int):
         ).fetchall()
     finally:
         conn.close()
+    return item, files
+
+
+@app.get("/announcement/{ann_id}")
+def announcement_detail(request: Request, ann_id: int):
+    item, files = load_announcement(ann_id, request)
     return render(request, "announcement.html", item=item, files=files)
+
+
+@app.get("/announcement/{ann_id}/print")
+def announcement_print(request: Request, ann_id: int):
+    item, files = load_announcement(ann_id, request)
+    page_url = str(request.base_url).rstrip("/") + f"/announcement/{ann_id}"
+    return render(request, "print.html", item=item, files=files, page_url=page_url)
+
+
+@app.get("/rss.xml")
+def rss_feed(request: Request):
+    """Лента RSS: последние одобренные анонсы (без входа, для читалок и виджетов)."""
+    conn = get_conn()
+    try:
+        rows = conn.execute(
+            """SELECT a.*, u.full_name AS author FROM announcements a
+               JOIN users u ON u.id = a.author_id
+               WHERE a.status = 'approved'
+               ORDER BY a.created_at DESC LIMIT 20""",
+        ).fetchall()
+    finally:
+        conn.close()
+
+    base = str(request.base_url).rstrip("/")
+    items = []
+    for r in rows:
+        link = f"{base}/announcement/{r['id']}"
+        parts = [f"{KINDS.get(r['kind'], r['kind'])} · {r['subject']}."]
+        if r["event_date"]:
+            parts.append(f"Дата мероприятия: {r['event_date']}.")
+        if r["deadline"]:
+            parts.append(f"Заявки принимаются до {r['deadline']}.")
+        if r["description"]:
+            text = " ".join(r["description"].split())
+            parts.append(text[:500] + ("…" if len(text) > 500 else ""))
+        parts.append(f"Автор: {r['author']}.")
+        desc = " ".join(parts)
+        try:
+            pub = format_datetime(
+                datetime.strptime(r["created_at"], "%Y-%m-%d %H:%M:%S")
+                .replace(tzinfo=timezone.utc)
+            )
+        except ValueError:
+            pub = format_datetime(datetime.now(timezone.utc))
+        items.append(
+            "    <item>\n"
+            f"      <title>{xml_escape(r['title'])}</title>\n"
+            f"      <link>{xml_escape(link)}</link>\n"
+            f"      <guid isPermaLink=\"true\">{xml_escape(link)}</guid>\n"
+            f"      <pubDate>{pub}</pubDate>\n"
+            f"      <category>{xml_escape(r['subject'])}</category>\n"
+            f"      <description>{xml_escape(desc)}</description>\n"
+            "    </item>"
+        )
+
+    xml = (
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<rss version=\"2.0\">\n"
+        "  <channel>\n"
+        f"    <title>Анонсы — {xml_escape(SCHOOL_NAME)}</title>\n"
+        f"    <link>{xml_escape(base)}</link>\n"
+        "    <description>Олимпиады, конкурсы и творческие разработки учителей "
+        "школы № 61</description>\n"
+        "    <language>ru</language>\n"
+        f"    <lastBuildDate>{format_datetime(datetime.now(timezone.utc))}</lastBuildDate>\n"
+        + ("\n".join(items) + "\n" if items else "")
+        + "  </channel>\n"
+        "</rss>\n"
+    )
+    return Response(content=xml, media_type="application/rss+xml")
 
 
 @app.get("/files/{file_id}")

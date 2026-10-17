@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Печать: {{ item['title'] }}{% endblock %}
+{% block content %}
+<div class="print-actions no-print">
+  <button class="btn btn-primary" type="button" onclick="window.print()">🖨 Печать</button>
+  <a class="btn btn-ghost" href="/announcement/{{ item['id'] }}">← К объявлению</a>
+</div>
+
+<article class="print-card">
+  <header class="print-head">
+    <img class="print-logo" src="/static/logo.svg" alt="Логотип школы">
+    <div>
+      <div class="print-school">{{ school }}</div>
+      <div class="print-sub">Карточка мероприятия · {{ KINDS[item['kind']] }}</div>
+    </div>
+  </header>
+
+  <div class="badges">
+    <span class="badge badge-kind">{{ KINDS[item['kind']] }}</span>
+    <span class="badge badge-subject">{{ item['subject'] }}</span>
+  </div>
+  <h1>{{ item['title'] }}</h1>
+
+  <dl class="facts">
+    {% if item['event_date'] %}<div><dt>Дата мероприятия</dt><dd>{{ item['event_date'] }}</dd></div>{% endif %}
+    {% if item['deadline'] %}<div><dt>Срок подачи заявок</dt><dd class="meta-important">{{ item['deadline'] }}</dd></div>{% endif %}
+    <div><dt>Автор</dt><dd>{{ item['author'] }}</dd></div>
+    <div><dt>Опубликовано</dt><dd>{{ item['created_at'][:10] }}</dd></div>
+  </dl>
+
+  {% if item['description'] %}
+  <section class="description">{{ item['description'] }}</section>
+  {% endif %}
+
+  {% if item['link'] %}
+  <p class="print-link"><b>Ссылка:</b> <a href="{{ item['link'] }}">{{ item['link'] }}</a></p>
+  {% endif %}
+
+  {% if files %}
+  <section class="attachments">
+    <h2>Файлы</h2>
+    <ul>
+      {% for f in files %}
+      <li>{{ f['original_name'] }} — {{ (f['size'] / 1024) | round(0) | int }} КБ</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  <p class="print-url">{{ page_url }}</p>
+</article>
+{% endblock %}

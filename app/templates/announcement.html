@@ -6,6 +6,8 @@
     <span class="badge badge-kind">{{ KINDS[item['kind']] }}</span>
     <span class="badge badge-subject">{{ item['subject'] }}</span>
     {% if item['status'] != 'approved' %}<span class="badge badge-wait">На модерации</span>{% endif %}
+    <a class="badge badge-print" href="/announcement/{{ item['id'] }}/print"
+       title="Печатная карточка">🖨 Печать</a>
   </div>
   <h1>{{ item['title'] }}</h1>
   <p class="detail-meta">

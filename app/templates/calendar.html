@@ -47,6 +47,8 @@
     <span class="upcoming-date">{{ e['event_date'] }}</span>
     <a href="/announcement/{{ e['id'] }}">{{ e['title'] }}</a>
     <span class="badge badge-subject">{{ e['subject'] }}</span>
+    <a class="upcoming-print" href="/announcement/{{ e['id'] }}/print"
+       title="Печатная карточка" aria-label="Печать карточки">🖨</a>
   </li>
   {% endfor %}
 </ul>

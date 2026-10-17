@@ -185,3 +185,26 @@ form label input, form label select, form label textarea { font-weight: 400; mar
   .row { grid-template-columns: 1fr; }
   .facts { gap: 16px; }
 }
+
+/* ---- печатная карточка ---- */
+.badge-print { background: #eef2ff; color: var(--primary); border: 1px solid var(--border); cursor: pointer; }
+.badge-print:hover { background: #e0e7ff; }
+.upcoming-print { text-decoration: none; font-size: 1rem; opacity: .7; }
+.upcoming-print:hover { opacity: 1; }
+.print-actions { display: flex; gap: 10px; margin: 14px 0; }
+.print-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 26px; }
+.print-head { display: flex; align-items: center; gap: 14px; border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 16px; }
+.print-logo { width: 64px; height: 64px; }
+.print-school { font-weight: 700; }
+.print-sub { color: var(--muted); font-size: 13px; }
+.print-link { word-break: break-all; }
+.print-url { margin-top: 18px; font-size: 12px; color: var(--muted); word-break: break-all; }
+
+@media print {
+  .site-header, .site-footer, .flash, .print-actions, .no-print { display: none !important; }
+  body { background: #fff; }
+  main.container { max-width: none; margin: 0; padding: 0; }
+  .print-card { border: none; padding: 0; border-radius: 0; }
+  a { color: inherit; text-decoration: none; }
+  .description { background: #fff; padding: 0; }
+}

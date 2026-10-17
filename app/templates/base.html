@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Портал олимпиад и конкурсов{% endblock %} — {{ school }}</title>
   <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+  <link rel="alternate" type="application/rss+xml" title="Анонсы — RSS"
+        href="/rss.xml">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -19,6 +21,7 @@
       <a href="/">Анонсы</a>
       <a href="/calendar">Календарь</a>
       <a href="/subscribe">Подписка</a>
+      <a href="/about">О школе</a>
       {% if user %}
         <a href="/cabinet">Кабинет</a>
         {% if user['role'] == 'admin' %}
@@ -48,6 +51,7 @@
   <div class="container">
     {{ school }} · Портал олимпиад, конкурсов и творческих разработок учителей.
     Информация для учеников — по ссылкам и файлам в объявлениях.
+    <a href="/rss.xml">RSS</a> · <a href="/about">О школе</a>
   </div>
 </footer>
 </body>
