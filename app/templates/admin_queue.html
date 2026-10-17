@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Модерация — Школьный портал{% endblock %}
+{% block content %}
+<h1>Модерация объявлений</h1>
+
+<h2>Ждут проверки: {{ pending | length }}</h2>
+{% if pending %}
+  {% for a in pending %}
+  <div class="mod-card">
+    <div class="badges">
+      <span class="badge badge-kind">{{ KINDS[a['kind']] }}</span>
+      <span class="badge badge-subject">{{ a['subject'] }}</span>
+    </div>
+    <h3><a href="/announcement/{{ a['id'] }}">{{ a['title'] }}</a></h3>
+    <p class="hint">{{ a['author'] }} · {{ a['created_at'][:16] }}</p>
+    <p class="teaser">{{ a['description'][:200] }}</p>
+    <div class="actions">
+      <form method="post" action="/admin/announcement/{{ a['id'] }}/approve">
+        <button class="btn btn-ok" type="submit">Опубликовать</button>
+      </form>
+      <form method="post" action="/admin/announcement/{{ a['id'] }}/reject">
+        <button class="btn btn-danger" type="submit">Отклонить</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+<div class="empty"><p>Всё проверено ✔</p></div>
+{% endif %}
+
+{% if done %}
+<h2>Последние решения</h2>
+<table class="table">
+  <thead><tr><th>Название</th><th>Автор</th><th>Статус</th><th></th></tr></thead>
+  <tbody>
+  {% for a in done %}
+    <tr>
+      <td>{{ a['title'] }}</td>
+      <td>{{ a['author'] }}</td>
+      <td>
+        {% if a['status'] == 'approved' %}<span class="badge badge-ok">Опубликовано</span>
+        {% else %}<span class="badge badge-rej">Отклонено</span>{% endif %}
+      </td>
+      <td class="actions">
+        {% if a['status'] != 'approved' %}
+        <form method="post" action="/admin/announcement/{{ a['id'] }}/approve">
+          <button class="link-danger" type="submit">одобрить</button>
+        </form>
+        {% else %}
+        <form method="post" action="/admin/announcement/{{ a['id'] }}/reject">
+          <button class="link-danger" type="submit">снять</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

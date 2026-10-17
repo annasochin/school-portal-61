@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Подписка на анонсы{% endblock %}
+{% block content %}
+<div class="auth-box">
+  <h1>Подписка на анонсы</h1>
+  <p class="hint">Ученики: оставьте почту — пришлём письмо, как только появится новый
+  анонс по выбранному предмету. Подписка бесплатная, отписаться можно в один клик
+  из письма.</p>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+  <form method="post" action="/subscribe">
+    <label>Электронная почта
+      <input type="email" name="email" required placeholder="ivanov@mail.ru">
+    </label>
+    <label>Класс
+      <select name="student_class">
+        {% for c in classes %}<option value="{{ c }}">{{ c }} класс</option>{% endfor %}
+      </select>
+    </label>
+    <label>Предмет
+      <select name="subject">
+        <option value="">Все предметы</option>
+        {% for s in SUBJECTS %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+      </select>
+    </label>
+    <button class="btn btn-primary" type="submit">Подписаться</button>
+  </form>
+</div>
+{% endblock %}

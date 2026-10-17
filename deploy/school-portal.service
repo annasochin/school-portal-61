@@ -1,0 +1,22 @@
+# /etc/systemd/system/school-portal.service
+# Код лежит в /srv/school-portal, данные — в /srv/school-portal/data
+
+[Unit]
+Description=Портал олимпиад и конкурсов МБОУ СОШ 61
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/srv/school-portal
+Environment=DATA_DIR=/srv/school-portal/data
+Environment=SECRET_KEY=zamenite-na-dlinnuyu-sluchainuyu-stroku
+# Environment=SMTP_HOST=smtp.yandex.ru
+# Environment=SMTP_PORT=465
+# Environment=SMTP_USER=portal@school61.ru
+# Environment=SMTP_PASSWORD=парольприложения
+# Environment=SMTP_FROM=portal@school61.ru
+ExecStart=/usr/bin/python3 -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

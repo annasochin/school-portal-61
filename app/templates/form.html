@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Редактирование' if item else 'Новый анонс' }} — Школьный портал{% endblock %}
+{% block content %}
+<div class="form-box">
+  <h1>{{ 'Редактировать анонс' if item else 'Новый анонс' }}</h1>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+  <form method="post" enctype="multipart/form-data"
+        action="{{ '/announcement/' ~ item['id'] ~ '/edit' if item else '/announcement/new' }}">
+    <label>Название *
+      <input name="title" required maxlength="200"
+             value="{{ item['title'] if item else '' }}"
+             placeholder="Всероссийская олимпиада по математике">
+    </label>
+
+    <div class="row">
+      <label>Предмет
+        <select name="subject">
+          {% for s in SUBJECTS %}
+            <option value="{{ s }}" {% if item and item['subject'] == s %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Тип
+        <select name="kind">
+          {% for key, label in KINDS.items() %}
+            <option value="{{ key }}" {% if item and item['kind'] == key %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    </div>
+
+    <label>Описание
+      <textarea name="description" rows="7"
+        placeholder="Для кого, условия участия, этапы, контакты…">{{ item['description'] if item else '' }}</textarea>
+    </label>
+
+    <div class="row">
+      <label>Дата мероприятия <input type="date" name="event_date" value="{{ item['event_date'] or '' if item else '' }}"></label>
+      <label>Срок подачи заявок <input type="date" name="deadline" value="{{ item['deadline'] or '' if item else '' }}"></label>
+    </div>
+
+    <label>Ссылка (официальная страница, форма регистрации…)
+      <input name="link" type="url" placeholder="https://…" value="{{ item['link'] or '' if item else '' }}">
+    </label>
+
+    <label>Файлы (положение, программу, методичку…) — до 15 МБ каждый
+      <input type="file" name="files" multiple>
+    </label>
+
+    {% if editing_files %}
+    <div class="attached">
+      <h3>Уже прикреплено:</h3>
+      <ul>
+        {% for f in editing_files %}
+        <li>
+          📎 <a href="/files/{{ f['id'] }}">{{ f['original_name'] }}</a>
+          <a class="link-danger" href="/files/{{ f['id'] }}/delete"
+             onclick="return confirm('Удалить файл?')">убрать</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <button class="btn btn-primary" type="submit">
+      {{ 'Сохранить' if item else 'Опубликовать (после проверки)' }}
+    </button>
+    <a class="btn btn-ghost" href="/cabinet">Отмена</a>
+  </form>
+</div>
+{% endblock %}

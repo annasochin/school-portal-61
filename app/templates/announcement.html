@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ item['title'] }} — Школьный портал{% endblock %}
+{% block content %}
+<article class="detail">
+  <div class="badges">
+    <span class="badge badge-kind">{{ KINDS[item['kind']] }}</span>
+    <span class="badge badge-subject">{{ item['subject'] }}</span>
+    {% if item['status'] != 'approved' %}<span class="badge badge-wait">На модерации</span>{% endif %}
+  </div>
+  <h1>{{ item['title'] }}</h1>
+  <p class="detail-meta">
+    Автор: {{ item['author'] }} · опубликовано {{ item['created_at'][:10] }}
+  </p>
+
+  <dl class="facts">
+    {% if item['event_date'] %}<div><dt>Дата мероприятия</dt><dd>{{ item['event_date'] }}</dd></div>{% endif %}
+    {% if item['deadline'] %}<div><dt>Срок подачи заявок</dt><dd class="meta-important">{{ item['deadline'] }}</dd></div>{% endif %}
+  </dl>
+
+  {% if item['description'] %}
+  <section class="description">{{ item['description'] }}</section>
+  {% endif %}
+
+  {% if item['link'] %}
+  <p><a class="btn btn-primary" href="{{ item['link'] }}" target="_blank" rel="noopener">Перейти по ссылке →</a></p>
+  {% endif %}
+
+  {% if files %}
+  <section class="attachments">
+    <h2>Прикреплённые файлы</h2>
+    <ul>
+      {% for f in files %}
+      <li>
+        <a href="/files/{{ f['id'] }}">📎 {{ f['original_name'] }}</a>
+        <span class="file-size">({{ (f['size'] / 1024) | round(0) | int }} КБ)</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  <p><a href="/">← Ко всем анонсам</a></p>
+</article>
+{% endblock %}

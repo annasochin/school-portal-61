@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Кабинет учителя — Школьный портал{% endblock %}
+{% block content %}
+<div class="cabinet-head">
+  <h1>Мой кабинет</h1>
+  <a class="btn btn-primary" href="/announcement/new">+ Разместить анонс</a>
+</div>
+
+<p class="hint">Ваш предмет: <b>{{ user['subject'] }}</b>. Объявления появятся на сайте после проверки администратором.</p>
+
+{% if items %}
+<table class="table">
+  <thead>
+    <tr><th>Название</th><th>Тип</th><th>Статус</th><th>Файлы</th><th>Действия</th></tr>
+  </thead>
+  <tbody>
+  {% for a in items %}
+    <tr>
+      <td><a href="/announcement/{{ a['id'] }}">{{ a['title'] }}</a></td>
+      <td>{{ KINDS[a['kind']] }}</td>
+      <td>
+        {% if a['status'] == 'approved' %}<span class="badge badge-ok">Опубликовано</span>
+        {% elif a['status'] == 'rejected' %}<span class="badge badge-rej">Отклонено</span>
+        {% else %}<span class="badge badge-wait">На модерации</span>{% endif %}
+      </td>
+      <td>{{ a['file_count'] }}</td>
+      <td class="actions">
+        <a href="/announcement/{{ a['id'] }}/edit">Изменить</a>
+        <form method="post" action="/announcement/{{ a['id'] }}/delete" onsubmit="return confirm('Удалить объявление?')">
+          <button class="link-danger" type="submit">Удалить</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty"><p>Вы ещё ничего не размещали. <a href="/announcement/new">Создайте первый анонс</a>.</p></div>
+{% endif %}
+{% endblock %}

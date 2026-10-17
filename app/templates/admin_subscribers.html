@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Подписчики — Школьный портал{% endblock %}
+{% block content %}
+<h1>Подписчики рассылки</h1>
+
+{% if not smtp_ok %}
+<div class="flash flash-warn">
+  Рассылка писем <b>не настроена</b>. Чтобы письма уходили, задайте на сервере переменные
+  окружения: <code>SMTP_HOST</code>, <code>SMTP_PORT</code>, <code>SMTP_USER</code>,
+  <code>SMTP_PASSWORD</code>, <code>SMTP_FROM</code> (подойдёт почта школы или Яндекс.Почта
+  для домена). Подписчики при этом сохраняются.
+</div>
+{% endif %}
+
+<form method="post" action="/admin/subscribers/test" class="filters">
+  <input type="email" name="email" required placeholder="Тест: адрес для пробного письма">
+  <button class="btn btn-primary" type="submit">Отправить тест</button>
+</form>
+
+{% if rows %}
+<table class="table">
+  <thead><tr><th>Почта</th><th>Класс</th><th>Предмет</th><th>Подписан</th><th></th></tr></thead>
+  <tbody>
+  {% for s in rows %}
+    <tr>
+      <td>{{ s['email'] }}</td>
+      <td>{{ s['student_class'] }}</td>
+      <td>{{ s['subject'] or 'Все предметы' }}</td>
+      <td>{{ s['created_at'][:10] }}</td>
+      <td>
+        <form method="post" action="/admin/subscribers/{{ s['id'] }}/delete"
+              onsubmit="return confirm('Удалить подписчика?')">
+          <button class="link-danger" type="submit">Удалить</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<p class="hint">Всего подписчиков: {{ rows | length }}. Письма уходят при публикации
+одобренного объявления — тем, кто подписан на его предмет или на «все предметы».</p>
+{% else %}
+<div class="empty"><p>Подписчиков пока нет.</p></div>
+{% endif %}
+{% endblock %}

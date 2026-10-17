@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Пользователи — Школьный портал{% endblock %}
+{% block content %}
+<h1>Пользователи</h1>
+<table class="table">
+  <thead><tr><th>Логин</th><th>ФИО</th><th>Предмет</th><th>Роль и доступ</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>
+      <td>{{ r['login'] }}</td>
+      <td>{{ r['full_name'] }}</td>
+      <td>{{ r['subject'] }}</td>
+      <td>
+        <form method="post" action="/admin/users/{{ r['id'] }}" class="actions">
+          <select name="role">
+            <option value="teacher" {% if r['role'] == 'teacher' %}selected{% endif %}>Учитель</option>
+            <option value="admin" {% if r['role'] == 'admin' %}selected{% endif %}>Администратор</option>
+          </select>
+          <label class="checkbox">
+            <input type="checkbox" name="is_active" value="1" {% if r['is_active'] %}checked{% endif %}> Активен
+          </label>
+          <button class="btn btn-ghost" type="submit">Сохранить</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

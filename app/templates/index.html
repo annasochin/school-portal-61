@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Олимпиады, конкурсы и разработки учителей</h1>
+  <p>Найдите интересное соревнование по предмету или посмотрите творческие материалы учителей.
+     Хотите узнавать о новых анонсах первыми? <a href="/subscribe">Подпишитесь на рассылку</a>.</p>
+</section>
+
+<form class="filters" method="get" action="/">
+  <input type="search" name="q" value="{{ q }}" placeholder="Поиск по названию или описанию…">
+  <select name="subject">
+    <option value="">Все предметы</option>
+    {% for s in SUBJECTS %}
+      <option value="{{ s }}" {% if s == subject %}selected{% endif %}>{{ s }}</option>
+    {% endfor %}
+  </select>
+  <select name="kind">
+    <option value="">Все типы</option>
+    {% for key, label in KINDS.items() %}
+      <option value="{{ key }}" {% if key == kind %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <label class="checkbox"><input type="checkbox" name="active" value="1" {% if active == '1' %}checked{% endif %}> Только действующие</label>
+  <button class="btn btn-primary" type="submit">Найти</button>
+</form>
+
+{% if items %}
+<div class="grid">
+  {% for a in items %}
+  <article class="card">
+    <div class="badges">
+      <span class="badge badge-kind">{{ KINDS[a['kind']] }}</span>
+      <span class="badge badge-subject">{{ a['subject'] }}</span>
+    </div>
+    <h2><a href="/announcement/{{ a['id'] }}">{{ a['title'] }}</a></h2>
+    <p class="teaser">{{ a['description'][:150] }}{% if a['description']|length > 150 %}…{% endif %}</p>
+    <div class="card-meta">
+      {% if a['deadline'] %}<span class="meta-important">Заявки до {{ a['deadline'] }}</span>{% endif %}
+      {% if a['file_count'] %}<span>📎 {{ a['file_count'] }} файл(ов)</span>{% endif %}
+      <span class="meta-author">{{ a['author'] }}</span>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty">
+  <p>Пока нет подходящих объявлений.</p>
+  {% if not user %}<p>Учителя могут <a href="/register">зарегистрироваться</a> и разместить анонс.</p>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

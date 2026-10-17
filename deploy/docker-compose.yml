@@ -1,0 +1,23 @@
+# Запуск:  docker compose up -d --build
+services:
+  portal:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      # замените на длинную случайную строку
+      - SECRET_KEY=zamenite-na-dlinnuyu-sluchainuyu-stroku
+      # рассылка писем (необязательно; почта Яндекса для домена школы)
+      # - SMTP_HOST=smtp.yandex.ru
+      # - SMTP_PORT=465
+      # - SMTP_USER=portal@school61.ru
+      # - SMTP_PASSWORD=парольприложения
+      # - SMTP_FROM=portal@school61.ru
+    volumes:
+      - portal-data:/data
+
+volumes:
+  portal-data:

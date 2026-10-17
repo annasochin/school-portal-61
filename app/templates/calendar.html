@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Календарь олимпиад и конкурсов{% endblock %}
+{% block content %}
+<div class="cal-head">
+  <h1>Календарь олимпиад и конкурсов</h1>
+  <div class="cal-nav">
+    <a class="btn btn-ghost" href="/calendar?month={{ prev.strftime('%Y-%m') }}">← {{ prev.strftime('%m.%Y') }}</a>
+    <span class="cal-title">{{ month_names[cur.month] }} {{ cur.year }}</span>
+    <a class="btn btn-ghost" href="/calendar?month={{ next.strftime('%Y-%m') }}">{{ next.strftime('%m.%Y') }} →</a>
+  </div>
+</div>
+
+<p class="hint">
+  <span class="dot dot-event"></span> дата мероприятия ·
+  <span class="dot dot-deadline"></span> последний день подачи заявок
+</p>
+
+<table class="calendar">
+  <thead>
+    <tr>
+      <th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for week in weeks %}
+    <tr>
+      {% for cell in week %}
+      <td class="{% if cell['is_today'] %}today{% endif %} {% if not cell['day'] %}other-month{% endif %}">
+        {% if cell['day'] %}<span class="daynum">{{ cell['day'] }}</span>{% endif %}
+        {% for ann, kind_of in cell['events'] %}
+        <a class="cal-event {{ 'ev-event' if kind_of == 'event' else 'ev-deadline' }}"
+           href="/announcement/{{ ann['id'] }}"
+           title="{{ ann['title'] }}">{{ ann['title'] }}</a>
+        {% endfor %}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Ближайшие события</h2>
+{% if upcoming %}
+<ul class="upcoming">
+  {% for e in upcoming %}
+  <li>
+    <span class="upcoming-date">{{ e['event_date'] }}</span>
+    <a href="/announcement/{{ e['id'] }}">{{ e['title'] }}</a>
+    <span class="badge badge-subject">{{ e['subject'] }}</span>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<div class="empty"><p>Ближайших мероприятий с датами пока нет.</p></div>
+{% endif %}
+{% endblock %}
