@@ -1,0 +1,10 @@
+# Конфигурация Replit: как запускать сайт
+entrypoint = "app/main.py"
+modules = ["python-3.12"]
+run = "sh -c \"python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}\""
+hidden = [".config", "resize_logo.py", "test_smoke.py"]
+
+# Публикация (Deploy) — сайт будет работать круглосуточно
+[deployment]
+run = ["sh", "-c", "python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+deploymentTarget = "cloudrun"
