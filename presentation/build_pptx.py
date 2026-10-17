@@ -34,6 +34,7 @@ TEXT = RGBColor(0x1F, 0x29, 0x37)     # текст
 MUTED = RGBColor(0x6B, 0x72, 0x80)    # подписи
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 FONT = "Segoe UI"
+TOTAL_SLIDES = 8
 
 prs = Presentation()
 prs.slide_width = Inches(13.333)
@@ -105,8 +106,8 @@ def header(slide, title, n):
     f = textbox(slide, 0.6, 7.08, 9.5, 0.32)
     put(f, f"{SCHOOL} · {SITE}", size=9.5, color=MUTED, first=True, space_after=0)
     f2 = textbox(slide, 11.4, 7.08, 1.33, 0.32)
-    put(f2, f"{n} / 7", size=9.5, color=MUTED, first=True, space_after=0,
-        align=PP_ALIGN.RIGHT)
+    put(f2, f"{n} / {TOTAL_SLIDES}", size=9.5, color=MUTED, first=True,
+        space_after=0, align=PP_ALIGN.RIGHT)
 
 
 def new_slide(title, n):
@@ -279,7 +280,40 @@ shot(s, "print.png", 7.6, 1.45, 5.2, "Печатная карточка меро
 
 # ---------------------------------------------------------------- слайд 7
 
-s = new_slide("Публикация в открытом доступе", 7)
+s = new_slide("Перспективы развития портала", 7)
+bullets(s, 0.6, 1.35, 7.2, 4.7, [
+    "Наполнение: реальные анонсы всех предметов, фотоотчёты и итоги "
+    "прошедших олимпиад и конкурсов.",
+    "Личный кабинет ученика: избранные анонсы, свой класс и предмет, "
+    "история участия в соревнованиях.",
+    "Уведомления: напоминание о сроках заявок накануне и Telegram-бот "
+    "для тех, кто не читает почту.",
+    "Свой домен школы и полноценная версия для экранов смартфонов.",
+    "Портфолио разработок учителей: авторство, статистика скачиваний, "
+    "отзывы коллег.",
+], size=15.5, gap=14)
+rect(s, 8.1, 1.5, 4.65, 4.6, fill=LIGHT, line=BORDER,
+     shape=MSO_SHAPE.ROUNDED_RECTANGLE)
+tf = textbox(s, 8.42, 1.78, 4.0, 4.05)
+put(tf, "Ближайшие шаги", size=17, bold=True, color=DEEP, first=True,
+    space_after=14)
+for i, step in enumerate([
+    "Наполнить портал реальными анонсами — уже сейчас.",
+    "Подключить подписчиков и RSS на сайт школы — 1 месяц.",
+    "Свой домен и Telegram-бот — следующий этап.",
+    "Личный кабинет ученика — после запуска основных функций.",
+], start=1):
+    put(tf, f"{i}.  {step}", size=14, color=TEXT, space_after=13)
+rect(s, 0.6, 6.25, 12.13, 0.55, fill=BLUE, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
+tf = textbox(s, 0.9, 6.33, 11.5, 0.4, anchor=MSO_ANCHOR.MIDDLE)
+put(tf, "Цель: портал — постоянный информационный центр школы: "
+        "всегда актуально, всегда проверено.",
+    size=13.5, bold=True, color=WHITE, first=True, align=PP_ALIGN.CENTER,
+    space_after=0)
+
+# ---------------------------------------------------------------- слайд 8
+
+s = new_slide("Публикация в открытом доступе", 8)
 # карточка «Сайт»
 rect(s, 0.6, 1.45, 7.4, 1.5, fill=LIGHT, line=BORDER,
      shape=MSO_SHAPE.ROUNDED_RECTANGLE)
