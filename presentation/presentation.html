@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Портал олимпиад и конкурсов — презентация (7 слайдов)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  :root {
+    --blue: #2563eb; --deep: #1e3a8a; --sky: #38bdf8;
+    --light: #eff6ff; --border: #dbe4ee; --text: #1f2937;
+    --muted: #6b7280; --card: #ffffff;
+  }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: var(--text);
+         background: #e5e7eb; }
+  .slide { position: relative; width: 1280px; height: 720px; background: #fff;
+           overflow: hidden; margin: 22px auto; box-shadow: 0 4px 18px rgba(0,0,0,.18); }
+
+  /* шапка и подвал */
+  .band { height: 96px; background: var(--blue); display: flex; align-items: center;
+          gap: 18px; padding: 0 34px; }
+  .band .logo-disc { width: 80px; height: 80px; background: #fff; border-radius: 50%;
+                     display: flex; align-items: center; justify-content: center; }
+  .band .logo-disc img { width: 73px; height: 73px; }
+  .band h1 { color: #fff; font-size: 34px; font-weight: 700; }
+  .foot { position: absolute; left: 0; right: 0; bottom: 0; height: 44px;
+          border-top: 1px solid var(--border); display: flex; align-items: center;
+          justify-content: space-between; padding: 0 58px; font-size: 12.5px;
+          color: var(--muted); }
+  .foot a { color: var(--muted); text-decoration: none; }
+  .body { padding: 33px 58px 58px; }
+
+  ul.bullets { list-style: none; }
+  ul.bullets li { position: relative; padding-left: 30px; font-size: 21px;
+                  line-height: 1.35; margin-bottom: 20px; }
+  ul.bullets li::before { content: "•"; position: absolute; left: 4px; top: -2px;
+                          color: var(--blue); font-weight: 700; }
+
+  .shot { position: absolute; border: 1px solid var(--border); border-radius: 10px;
+          background: #fff; }
+  .shot img { display: block; width: 100%; border-radius: 9px; }
+  .shot .cap { font-size: 13.5px; color: var(--muted); text-align: center;
+               padding: 9px 6px 0; }
+
+  /* слайд 1 */
+  .cover { background: var(--blue); }
+  .cover .card { position: absolute; left: 134px; top: 111px; width: 1011px;
+                 height: 384px; background: #fff; border-radius: 18px;
+                 display: flex; align-items: center; gap: 44px; padding: 0 68px; }
+  .cover .card img { width: 278px; }
+  .cover h1 { font-size: 45px; color: var(--deep); margin-bottom: 14px; }
+  .cover .school { font-size: 24px; margin-bottom: 16px; }
+  .cover .idea { font-size: 19px; color: var(--muted); font-style: italic; }
+  .cover .below { position: absolute; left: 134px; top: 528px; width: 1011px;
+                  text-align: center; color: #fff; }
+  .cover .below .sub { font-size: 20px; margin-bottom: 10px; }
+  .cover .below a { color: var(--sky); font-size: 22px; font-weight: 600;
+                    text-decoration: none; }
+
+  /* слайд 2 */
+  .s2 .list { position: absolute; left: 58px; top: 134px; width: 720px; }
+  .s2 .quote { position: absolute; left: 816px; top: 182px; width: 408px;
+               height: 326px; background: var(--light); border: 1px solid var(--border);
+               border-radius: 14px; padding: 34px 30px; text-align: center;
+               display: flex; flex-direction: column; justify-content: center; }
+  .s2 .quote .q { font-size: 22px; font-weight: 700; color: var(--deep);
+                  font-style: italic; line-height: 1.4; margin-bottom: 16px; }
+  .s2 .quote .n { font-size: 17px; color: var(--muted); line-height: 1.4; }
+
+  /* слайд 3 */
+  .s3 .grid { position: absolute; left: 58px; top: 129px; width: 1186px;
+              display: grid; grid-template-columns: 576px 576px;
+              gap: 20px 32px; }
+  .s3 .box { height: 134px; background: var(--light); border: 1px solid var(--border);
+             border-radius: 14px; padding: 20px 24px; display: flex;
+             flex-direction: column; justify-content: center; }
+  .s3 .box b { font-size: 19.5px; color: var(--deep); margin-bottom: 7px; }
+  .s3 .box span { font-size: 15.5px; line-height: 1.35; }
+  .s3 .strip { position: absolute; left: 58px; top: 595px; width: 1164px;
+               height: 62px; background: var(--blue); border-radius: 12px;
+               display: flex; align-items: center; justify-content: center;
+               color: #fff; font-size: 18px; font-weight: 600; text-align: center;
+               padding: 0 30px; }
+
+  /* слайды 4–6 */
+  .split .list { position: absolute; left: 58px; top: 134px; width: 640px; }
+  .split .shot { left: 730px; top: 139px; width: 499px; }
+  .flow { position: absolute; left: 58px; top: 520px; display: flex;
+          align-items: center; gap: 9px; }
+  .flow .step { width: 144px; height: 66px; background: var(--light);
+                border: 1px solid var(--border); border-radius: 12px;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 16px; font-weight: 700; color: var(--deep); }
+  .flow .arr { color: var(--blue); font-size: 20px; font-weight: 700; }
+
+  /* слайд 7 */
+  .s7 .lcard { position: absolute; left: 58px; width: 710px; height: 144px;
+               background: var(--light); border: 1px solid var(--border);
+               border-radius: 14px; padding: 26px 34px; display: flex;
+               flex-direction: column; justify-content: center; }
+  .s7 .lcard .lab { font-size: 18px; color: var(--muted); margin-bottom: 10px; }
+  .s7 .lcard a { font-size: 21px; font-weight: 700; color: var(--blue);
+                 text-decoration: none; word-break: break-all; }
+  .s7 .notes { position: absolute; left: 58px; top: 474px; width: 710px;
+               font-size: 17.5px; color: var(--muted); line-height: 1.5; }
+  .s7 .notes b { color: var(--text); }
+  .s7 .qr { position: absolute; left: 869px; top: 139px; width: 355px;
+            height: 374px; background: #fff; border: 1px solid var(--border);
+            border-radius: 14px; text-align: center; padding-top: 28px; }
+  .s7 .qr img { width: 259px; height: 259px; }
+  .s7 .qr p { font-size: 15.5px; color: var(--muted); margin-top: 12px;
+              line-height: 1.4; padding: 0 20px; }
+  .s7 .thanks { position: absolute; left: 869px; top: 533px; width: 355px;
+                height: 125px; background: var(--blue); border-radius: 14px;
+                color: #fff; text-align: center; display: flex; flex-direction: column;
+                align-items: center; justify-content: center; gap: 7px; }
+  .s7 .thanks b { font-size: 21px; }
+  .s7 .thanks span { font-size: 14.5px; color: #dbeafe; }
+
+  @page { size: 1280px 720px; margin: 0; }
+  @media print {
+    body { background: none; }
+    .slide { margin: 0; box-shadow: none; page-break-after: always; }
+    .slide:last-child { page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- СЛАЙД 1 — название -->
+<section class="slide cover">
+  <div class="card">
+    <img src="logo.png" alt="Логотип школы № 61">
+    <div>
+      <h1>Портал олимпиад и конкурсов</h1>
+      <div class="school">МБОУ СОШ № 61 им. П. Е. Ладана</div>
+      <div class="idea">Учителя публикуют · ученики находят</div>
+    </div>
+  </div>
+  <div class="below">
+    <div class="sub">Презентация школьного информационного портала · 2026</div>
+    <a href="https://school-portal-61--sochinart1.replit.app">https://school-portal-61--sochinart1.replit.app</a>
+  </div>
+</section>
+
+<!-- СЛАЙД 2 — замысел -->
+<section class="slide s2">
+  <div class="band"><div class="logo-disc"><img src="logo.png" alt=""></div>
+    <h1>Замысел: одна точка входа для всей информации школы</h1></div>
+  <div class="list">
+    <ul class="bullets">
+      <li>«Одно окно» для олимпиад и конкурсов: анонсы, сроки, файлы и ссылки собраны в одном проверенном месте.</li>
+      <li>Учитель публикует один раз — объявление само появляется на главной, в календаре и у подписчиков.</li>
+      <li>Ученик не ищет по чатам и доскам объявлений: предмет, тип, дата — и нужный анонс найден за 30 секунд.</li>
+      <li>Ничего не теряется: архив прошлых лет, регламенты и презентации доступны в любой момент.</li>
+      <li>Работает круглосуточно, бесплатно и с любого устройства: телефона, планшета, компьютера.</li>
+    </ul>
+  </div>
+  <div class="quote">
+    <div class="q">«Вся информация об олимпиадах и конкурсах школы — в одном окне: всегда актуальная и проверенная»</div>
+    <div class="n">Портал экономит время учителей и снимает хаос в поиске информации для учеников.</div>
+  </div>
+  <div class="foot"><span>МБОУ СОШ № 61 им. П. Е. Ладана · <a href="https://school-portal-61--sochinart1.replit.app">school-portal-61--sochinart1.replit.app</a></span><span>2 / 7</span></div>
+</section>
+
+<!-- СЛАЙД 3 — междисциплинарные связи -->
+<section class="slide s3">
+  <div class="band"><div class="logo-disc"><img src="logo.png" alt=""></div>
+    <h1>Междисциплинарные связи</h1></div>
+  <div class="grid">
+    <div class="box"><b>Математика и информатика</b><span>Предметные олимпиады — и техническая основа портала: база данных, сайт, рассылка.</span></div>
+    <div class="box"><b>Филологический блок</b><span>Русский язык, литература, иностранные языки: конкурсы, сочинения, публикации.</span></div>
+    <div class="box"><b>Естественные науки</b><span>Физика, химия, биология, география: олимпиады, конференции, эксперименты.</span></div>
+    <div class="box"><b>ИЗО, музыка, технология</b><span>Творческие конкурсы и разработки учителей с файлами для скачивания.</span></div>
+    <div class="box"><b>Обществознание и ОБЖ</b><span>Гражданские, военно-патриотические и краеведческие акции школы.</span></div>
+    <div class="box"><b>ИКТ и информационная безопасность</b><span>Пароли, модерация публикаций, защита персональных данных, работа с почтой.</span></div>
+  </div>
+  <div class="strip">Портал объединяет кабинеты: кросс-предметные мероприятия — олимпиады, недели наук, конкурсы — видят все классы сразу.</div>
+  <div class="foot"><span>МБОУ СОШ № 61 им. П. Е. Ладана · <a href="https://school-portal-61--sochinart1.replit.app">school-portal-61--sochinart1.replit.app</a></span><span>3 / 7</span></div>
+</section>
+
+<!-- СЛАЙД 4 — как работает публикация -->
+<section class="slide split">
+  <div class="band"><div class="logo-disc"><img src="logo.png" alt=""></div>
+    <h1>Как работает публикация: от замысла до доски объявлений</h1></div>
+  <div class="list">
+    <ul class="bullets">
+      <li>Учитель регистрируется и создаёт анонс: название, предмет, тип, даты, описание, ссылка и файлы до 15 МБ.</li>
+      <li>Администратор проверяет публикацию — на сайте только проверенная информация.</li>
+      <li>«Мой кабинет»: свои анонсы, статусы, редактирование, смена пароля.</li>
+      <li>Админка: очередь модерации, пользователи, подписчики, письма-уведомления.</li>
+    </ul>
+  </div>
+  <div class="flow">
+    <div class="step">Регистрация</div><div class="arr">→</div>
+    <div class="step">Анонс</div><div class="arr">→</div>
+    <div class="step">Модерация</div><div class="arr">→</div>
+    <div class="step">Публикация</div>
+  </div>
+  <div class="shot"><img src="home.png" alt="Главная страница">
+    <div class="cap">Главная: карточка анонса с фильтрами и поиском</div></div>
+  <div class="foot"><span>МБОУ СОШ № 61 им. П. Е. Ладана · <a href="https://school-portal-61--sochinart1.replit.app">school-portal-61--sochinart1.replit.app</a></span><span>4 / 7</span></div>
+</section>
+
+<!-- СЛАЙД 5 — поиск и календарь -->
+<section class="slide split">
+  <div class="band"><div class="logo-disc"><img src="logo.png" alt=""></div>
+    <h1>Поиск и календарь: информация находится за секунды</h1></div>
+  <div class="list">
+    <ul class="bullets">
+      <li>Фильтры по 17 предметам и 5 типам: олимпиада, конкурс, творческая разработка, мероприятие, другое.</li>
+      <li>Поиск по названию и описанию, галочка «Только действующие» — просроченные заявки не мешают.</li>
+      <li>Календарь: дата мероприятия — синим, последний день подачи заявок — красным.</li>
+      <li>«Ближайшие события» — список того, что будет в ближайшие недели.</li>
+      <li>Карточку любого мероприятия можно распечатать одним нажатием — для доски объявлений или раздачи.</li>
+    </ul>
+  </div>
+  <div class="shot"><img src="calendar.png" alt="Календарь">
+    <div class="cap">Календарь: сроки и даты в месячной сетке</div></div>
+  <div class="foot"><span>МБОУ СОШ № 61 им. П. Е. Ладана · <a href="https://school-portal-61--sochinart1.replit.app">school-portal-61--sochinart1.replit.app</a></span><span>5 / 7</span></div>
+</section>
+
+<!-- СЛАЙД 6 — уведомления и безопасность -->
+<section class="slide split">
+  <div class="band"><div class="logo-disc"><img src="logo.png" alt=""></div>
+    <h1>Уведомления, документы и безопасность</h1></div>
+  <div class="list">
+    <ul class="bullets">
+      <li>Подписка по e-mail: ученик получает письмо о новых одобренных анонсах, отписка — по ссылке в письме.</li>
+      <li>RSS-лента /rss.xml — для читалок и встраивания на школьный сайт.</li>
+      <li>Печатная карточка: логотип школы, даты, описание и файлы — готова к печати без лишних элементов.</li>
+      <li>Безопасность: пароли хешируются, секретный ключ хранится вне кода, файлы проверяются, всё под контролем администратора.</li>
+    </ul>
+  </div>
+  <div class="shot"><img src="print.png" alt="Печатная карточка">
+    <div class="cap">Печатная карточка мероприятия</div></div>
+  <div class="foot"><span>МБОУ СОШ № 61 им. П. Е. Ладана · <a href="https://school-portal-61--sochinart1.replit.app">school-portal-61--sochinart1.replit.app</a></span><span>6 / 7</span></div>
+</section>
+
+<!-- СЛАЙД 7 — публикация в открытом доступе -->
+<section class="slide s7">
+  <div class="band"><div class="logo-disc"><img src="logo.png" alt=""></div>
+    <h1>Публикация в открытом доступе</h1></div>
+  <div class="lcard" style="top:139px">
+    <div class="lab">🌐 Сайт в открытом доступе — работает круглосуточно:</div>
+    <a href="https://school-portal-61--sochinart1.replit.app">https://school-portal-61--sochinart1.replit.app</a>
+  </div>
+  <div class="lcard" style="top:299px">
+    <div class="lab">💻 Исходный код открыт на GitHub (публичный репозиторий):</div>
+    <a href="https://github.com/annasochin/school-portal-61">https://github.com/annasochin/school-portal-61</a>
+  </div>
+  <div class="notes">
+    RSS-лента: <b>https://school-portal-61--sochinart1.replit.app/rss.xml</b><br>
+    Бесплатный хостинг Replit · публичный репозиторий GitHub · обновления — git pull и одна кнопка Republish.<br>
+    Данные школы (база и файлы) в открытый репозиторий не попадают.
+  </div>
+  <div class="qr"><img src="qr.png" alt="QR-код сайта">
+    <p>Наведите камеру —<br>сразу откроется сайт портала</p></div>
+  <div class="thanks"><b>Спасибо за внимание!</b><span>Вопросы и предложения — администрации школы</span></div>
+  <div class="foot"><span>МБОУ СОШ № 61 им. П. Е. Ладана · <a href="https://school-portal-61--sochinart1.replit.app">school-portal-61--sochinart1.replit.app</a></span><span>7 / 7</span></div>
+</section>
+
+</body>
+</html>
