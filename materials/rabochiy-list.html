@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Рабочий лист: Анонс моей олимпиады</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1f2937;
+         background: #f5f7fb; font-size: 13.5px; line-height: 1.45; }
+  .sheet { max-width: 820px; margin: 24px auto; background: #fff;
+           border: 1px solid #dbe4ee; border-radius: 12px; padding: 30px 36px; }
+  .head { display: flex; justify-content: space-between; align-items: center;
+          border-bottom: 2.5px solid #2563eb; padding-bottom: 12px; margin-bottom: 6px; }
+  .head .school { font-weight: 700; color: #1e3a8a; font-size: 15px; }
+  .head img { width: 56px; height: 56px; }
+  h1 { font-size: 21px; color: #1e3a8a; margin: 14px 0 4px; }
+  .meta { display: flex; gap: 26px; margin: 10px 0 16px; font-size: 13.5px; }
+  .meta div { flex: 1; }
+  .line { border-bottom: 1px dotted #6b7280; display: inline-block; min-width: 60%; }
+  h2 { font-size: 15px; color: #2563eb; margin: 18px 0 8px;
+       background: #eff6ff; border: 1px solid #dbe4ee; border-radius: 8px;
+       padding: 7px 12px; }
+  h2 span { float: right; color: #6b7280; font-weight: 400; font-size: 12.5px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+  th, td { border: 1px solid #dbe4ee; padding: 7px 10px; text-align: left;
+           vertical-align: top; }
+  th { background: #f8fafc; font-size: 12.5px; color: #475569; width: 38%; }
+  td { min-height: 26px; height: 30px; }
+  .blank { color: #9ca3af; }
+  ul.check { list-style: none; margin: 4px 0 2px; }
+  ul.check li { padding: 4px 0 4px 24px; position: relative; }
+  ul.check li::before { content: "☐"; position: absolute; left: 2px; top: 2px;
+                        font-size: 15px; color: #2563eb; }
+  .big { height: 52px; }
+  .roles { font-size: 12.8px; color: #475569; margin-top: 4px; }
+  .foot { display: flex; justify-content: space-between; font-size: 12px;
+          color: #6b7280; border-top: 1px solid #dbe4ee; margin-top: 18px;
+          padding-top: 10px; }
+  .no-print { text-align: center; margin: 14px 0; }
+  .no-print button { background: #2563eb; color: #fff; border: 0; font-size: 16px;
+                     font-weight: 700; border-radius: 10px; padding: 11px 26px;
+                     cursor: pointer; font-family: inherit; }
+  @media print {
+    body { background: #fff; font-size: 12.4px; }
+    .sheet { border: none; margin: 0; padding: 0; max-width: none; }
+    .no-print { display: none; }
+    h2 { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print"><button onclick="window.print()">🖨 Распечатать лист</button></div>
+
+<div class="sheet">
+  <div class="head">
+    <div class="school">МБОУ СОШ № 61 им. П. Е. Ладана<br>
+      <span style="font-weight:400;color:#6b7280">Занятие «Цифровая редакция школы»</span></div>
+    <img src="https://school-portal-61--sochinart1.replit.app/static/logo.svg" alt="Логотип">
+  </div>
+
+  <h1>Рабочий лист: «Анонс моей олимпиады»</h1>
+  <div class="meta">
+    <div>Команда: <span class="line">&nbsp;</span></div>
+    <div>Дата: <span class="line" style="min-width:40%">&nbsp;</span></div>
+    <div>Занятие: 1 / 2</div>
+  </div>
+  <div class="roles">Роли в команде: редактор · факт-чекер · оператор публикации ·
+    дизайнер карточки · спикер. Перед началом распределите роли.</div>
+
+  <h2>Блок 1. Источник <span>кто сообщает об олимпиаде</span></h2>
+  <table>
+    <tr><th>Официальное название олимпиады</th><td class="blank">&nbsp;</td></tr>
+    <tr><th>Организатор</th><td class="blank">&nbsp;</td></tr>
+    <tr><th>Официальный сайт (ссылка)</th><td class="blank">&nbsp;</td></tr>
+    <tr><th>Дата обращения к источнику</th><td class="blank">&nbsp;</td></tr>
+  </table>
+
+  <h2>Блок 2. Сверка дат <span>факт-чекер сверяет с первоисточником</span></h2>
+  <table>
+    <tr><th>Срок подачи заявок (последний день)</th><td class="blank">&nbsp;</td></tr>
+    <tr><th>Дата мероприятия</th><td class="blank">&nbsp;</td></tr>
+    <tr><th>Сегодня число / осталось дней до заявки</th><td class="blank">&nbsp;</td></tr>
+    <tr><th>Даты сверены с первоисточником, расхождений нет</th><td class="blank">☐ да &nbsp; ☐ нет, исправлено: ___________</td></tr>
+  </table>
+
+  <h2>Блок 3. Черновик анонса <span>структура: заголовок → суть → сроки → призыв</span></h2>
+  <table>
+    <tr><th>Название / тип / предмет</th><td class="blank">&nbsp;</td></tr>
+  </table>
+  <table>
+    <tr><td class="big blank" colspan="2">Заголовок:</td></tr>
+    <tr><td class="big blank" colspan="2">Суть: что за олимпиада, кто может участвовать:</td></tr>
+    <tr><td class="big blank" colspan="2">Сроки: когда заявка, когда мероприятие:</td></tr>
+    <tr><td class="big blank" colspan="2">Призыв: что сделать читателю прямо сейчас:</td></tr>
+    <tr><th>Ссылка на первоисточник (с http/https)</th><td class="blank">&nbsp;</td></tr>
+  </table>
+
+  <h2>Блок 4. Публикация <span>оператор публикации</span></h2>
+  <ul class="check">
+    <li>Все обязательные поля формы заполнены (название, тип, предмет, даты, описание)</li>
+    <li>Ссылка открывается в новой вкладке</li>
+    <li>Анонс отправлен администратору и дождался одобрения</li>
+    <li>Анонс виден на главной, находится через фильтр по предмету и через поиск</li>
+    <li>Даты на странице совпадают с Блоком 2</li>
+    <li>Ссылка на опубликованный анонс записана: <span class="line">&nbsp;</span></li>
+  </ul>
+
+  <h2>Блок 5. Карточка, QR и защита <span>дизайнер карточки + спикер</span></h2>
+  <ul class="check">
+    <li>Печатная карточка мероприятия открыта кнопкой «🖨 Печать» и распечатана</li>
+    <li>QR-код с карточки ведёт на страницу анонса (проверено камерой телефона)</li>
+    <li>Готовы 2 аргумента рекомендации: какую олимпиаду выбрать классу и почему</li>
+    <li>Исправления ИИ-ассистента проверены по первоисточнику (даты, факты)</li>
+  </ul>
+  <div class="foot">
+    <span>Рабочий лист занятия «Цифровая редакция школы» · МБОУ СОШ № 61 им. П. Е. Ладана</span>
+    <span>Команда: <span class="line" style="min-width:30%">&nbsp;</span></span>
+  </div>
+</div>
+
+</body>
+</html>
